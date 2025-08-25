@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Progress</title>
+</head>
+<body>
+	<div style="padding:18px 16px;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;overflow:hidden;">
+		<div style="display:flex;align-items:center;gap:18px;position:relative;">
+
+			<!-- ЛІВИЙ HUD-ЦИФРОВИЙ КРУГ + ВУШКО -->
+			<div style="position:relative;width:120px;height:120px;flex:0 0 120px;">
+				<!-- SVG кільця + поділки -->
+				<svg viewBox="0 0 120 120" style="position:absolute;inset:0;filter:drop-shadow(0 0 6px rgba(255,213,0,0.33))">
+					<!-- Зовнішнє кільце -->
+					<circle cx="60" cy="60" r="57"
+									style="fill:none;stroke:#fdee0f;stroke-width:2;opacity:.85" />
+					<!-- Канавка під прогрес -->
+					<circle cx="60" cy="60" r="46"
+									style="fill:none;stroke:rgba(43,37,7,0.3);stroke-width:12" />
+					<!-- Прогрес-дуга -->
+					<circle id="arc" cx="60" cy="60" r="46"
+									style="fill:none;stroke:#fdee0f;stroke-width:12;stroke-linecap:round;
+                       transform:rotate(-90deg);transform-origin:60px 60px;
+                       stroke-dasharray:289 289;stroke-dashoffset:289;transition:stroke-dashoffset 1s ease" />
+					<!-- Внутрішнє кільце -->
+					<circle cx="60" cy="60" r="36"
+									style="fill:none;stroke:#ffea00;stroke-width:2;opacity:.9" />
+					<!-- “штрихи” -->
+					<circle cx="60" cy="60" r="52"
+									style="fill:none;stroke:#ffea00;stroke-width:3;stroke-dasharray:2 10;opacity:.55;stroke-linecap:round" />
+					<!-- Центральне коло -->
+					<circle cx="60" cy="60" r="28" style="fill:#fdee0f" />
+					<!-- Відсоток -->
+					<text id="pctText" x="60" y="66"
+								style="fill:#2b2507;font-weight:800;font-size:22px;text-anchor:middle">0%
+					</text>
+				</svg>
+			</div>
+
+			<!-- ПРАВИЙ СЕГМЕНТОВАНИЙ БАР -->
+			<div style="flex:1;min-width:260px;position:relative;">
+				<!-- верхня лінія -->
+				<div
+					style="height:8px;background:linear-gradient(90deg,#fdee0f, rgba(253,233,15,0) 80%);opacity:.9;border-radius:2px"></div>
+
+				<!-- сам бар -->
+				<div style="margin:15px 0;padding:10px 12px;border:2px solid #fdee0f;border-radius:6px;
+                  display:flex;align-items:center;gap:12px;
+                  box-shadow:0 0 10px rgba(255,234,0,0.2) inset;position:relative;">
+					<div id="slots" style="display:flex;gap:10px;flex:1">
+						<!-- 10 слотів -->
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+						<div
+							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
+					</div>
+					<div style="margin-left:12px;color:#fdee0f;font-weight:700;letter-spacing:1px">LOADING...</div>
+					<!-- нижній “хвостик” -->
+					<div style="position:absolute;bottom:-10px;left:40px;width:80px;height:10px;
+                    background:#fdee0f;clip-path:polygon(0 0,100% 0,80% 100%,20% 100%);
+                    opacity:.7;"></div>
+					<!-- вурхній “хвостик” -->
+					<div style="position:absolute;top:-10px;right:40px;width:80px;height:10px;
+                    background:#fdee0f;clip-path:polygon(0 0,100% 0,80% 100%,20% 100%);
+                    opacity:.7; transform: rotate(180deg);"></div>
+				</div>
+
+				<!-- нижня декоративна лінія -->
+				<div
+					style="height:6px;background:linear-gradient(90deg,#fdee0f00 0,#fdee0f 20%, #fdee0f00 60%);opacity:.8;border-radius:2px"></div>
+			</div>
+		</div>
+
+		<!-- INLINE SCRIPT -->
+		<script>
+			(function() {
+				// 1) читаємо ?minutes= з URL
+				const sp = new URLSearchParams(location.search);
+				const minutesRaw = sp.get('minutes');
+				const MINUTES = (m => (Number.isFinite(m) && m > 0) ? m : 5)(Number(minutesRaw));
+
+				// 2) налаштування тривалості та кроків
+				const DURATION = MINUTES * 60 * 1000; // мс
+				const STEPS = 100;
+				const INTERVAL = Math.max(100, Math.round(DURATION / STEPS));
+
+				// 3) елементи DOM
+				const text = document.getElementById('pctText');
+				const arc = document.getElementById('arc');
+				const slots = Array.from(document.getElementById('slots')?.children || []);
+
+				// 4) підготовка кругової дуги
+				const R = 46;
+				const C = 2 * Math.PI * R;
+				if (arc) {
+					arc.style.strokeDasharray = C + ' ' + C;
+					arc.style.stroke = '#fdee0f'; // новий колір дуги
+				}
+
+				// 5) тікер
+				let pct = 0;
+				text && (text.textContent = '0%');
+				text && (text.style.fill = '#2b2507'); // темний текст всередині жовтого кола
+
+				const tick = () => {
+					if (pct > 100) {
+						clearInterval(timer);
+						return;
+					}
+
+					// текст
+					if (text) {
+						text.textContent = pct + '%';
+					}
+
+					// дуга
+					if (arc) {
+						const filled = C * (pct / 100);
+						arc.style.strokeDashoffset = (C - filled).toFixed(2);
+					}
+
+					// сегменти
+					if (slots.length) {
+						const onSlots = Math.floor((pct / 100) * slots.length);
+						slots.forEach((el, i) => {
+							const on = i < onSlots;
+							el.style.background = on ? '#fdee0f' : '#242f30';
+							el.style.opacity = on ? '1' : '.55';
+							el.style.borderColor = '#fdee0f';
+							el.style.boxShadow = on
+								? '0 0 10px #FDEE0Faa inset,0 0 8px #FDEE0F66'
+								: '0 0 8px #FDEE0F22 inset';
+						});
+					}
+
+					pct++;
+				};
+
+				// одразу оновлюємо 0-й стан, потім інтервалами
+				tick();
+				const timer = setInterval(tick, INTERVAL);
+			})();
+		</script>
+
+
+	</div>
+
+
+</body>
+</html>
