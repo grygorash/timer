@@ -74,7 +74,10 @@
 						<div
 							style="width:10%;height:28px;border:2px solid #fdee0f;border-radius:3px;background:#302f24;opacity:.55;box-shadow:0 0 8px rgba(255,204,0,0.13) inset"></div>
 					</div>
-					<div style="margin-left:12px;color:#fdee0f;font-weight:700;letter-spacing:1px">LOADING...</div>
+					<div id="loadingText"
+							 style="width:95px;margin-left:12px;color:#fdee0f;font-weight:700;letter-spacing:1px;">
+						LOADING
+					</div>
 					<!-- нижній “хвостик” -->
 					<div style="position:absolute;bottom:-10px;left:40px;width:80px;height:10px;
                     background:#fdee0f;clip-path:polygon(0 0,100% 0,80% 100%,20% 100%);
@@ -155,6 +158,22 @@
 
 					pct++;
 				};
+
+				const el = document.getElementById('loadingText');
+				let dots = 0;
+
+				const loadingInterval = setInterval(() => {
+					if (pct === 100) {
+						clearInterval(loadingInterval);
+						if (el) {
+							el.textContent = 'DONE';
+						}
+						return;
+					}
+
+					dots = (dots + 1) % 4; // 0 → 1 → 2 → 3 → назад 0
+					el.textContent = 'LOADING' + '.'.repeat(dots);
+				}, 500); // оновлювати раз на 0.5с
 
 				// одразу оновлюємо 0-й стан, потім інтервалами
 				tick();
