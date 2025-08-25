@@ -125,9 +125,25 @@
 				text && (text.textContent = '0');
 				text && (text.style.fill = '#2b2507'); // темний текст всередині жовтого кола
 
+				// для анімації LOADING...
+				const el = document.getElementById('loadingText');
+				let dots = 0;
+
+				// функція оновлення тексту LOADING...
+				const textDots = () => {
+					dots = (dots + 1) % 4; // 0 → 1 → 2 → 3 → назад 0
+					el.textContent = 'LOADING' + '.'.repeat(dots);
+				};
+
 				const tick = () => {
 					if (pct > 100) {
 						clearInterval(timer);
+						clearInterval(loadingInterval);
+
+						if (el) {
+							el.textContent = 'DONE';
+						}
+
 						return;
 					}
 
@@ -159,25 +175,10 @@
 					pct++;
 				};
 
-				const el = document.getElementById('loadingText');
-				let dots = 0;
-
-				const loadingInterval = setInterval(() => {
-					if (pct === 100) {
-						clearInterval(loadingInterval);
-						if (el) {
-							el.textContent = 'DONE';
-						}
-						return;
-					}
-
-					dots = (dots + 1) % 4; // 0 → 1 → 2 → 3 → назад 0
-					el.textContent = 'LOADING' + '.'.repeat(dots);
-				}, 500); // оновлювати раз на 0.5с
-
 				// одразу оновлюємо 0-й стан, потім інтервалами
 				tick();
 				const timer = setInterval(tick, INTERVAL);
+				const loadingInterval = setInterval(textDots, 500); // оновлювати раз на 0.5с
 			})();
 		</script>
 
